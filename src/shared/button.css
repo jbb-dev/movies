@@ -1,0 +1,17 @@
+button {
+    border: none;
+    color: white;
+    width: 300px;
+    height: 50px;
+    border-radius: 25px;
+}
+
+.active {
+    background-color:green;
+    cursor: pointer;
+}
+
+.passive {
+    background-color: red;
+    cursor: not-allowed;
+}
