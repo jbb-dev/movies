@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import Movie from './Movie';
 import './movies.css'
 import { useNavigate } from 'react-router-dom';
+import MovieCard from './MovieCard';
 
-const ListMovies = ({isAuth}) => {
+const ListMovies = ({isAuth, setSelectMovie }) => {
 
     let navigate = useNavigate();
 
@@ -19,6 +19,11 @@ const ListMovies = ({isAuth}) => {
         .get(URL)
         .then(response => setData(response.data.results))
         .catch(err => setErr(err))   
+    };
+
+    const goToMovie = (movie) => {
+        setSelectMovie(movie);
+        navigate(`/movies/${movie.id}`);
     };
 
     useEffect(() => {
@@ -37,7 +42,14 @@ const ListMovies = ({isAuth}) => {
   return (
     <div className='container'>
         {data != null ? 
-            data.map((movie, index) => <Movie key={movie.id} {...movie} />)    
+            data.map((movie, index) => {
+            return (
+                <MovieCard 
+                    key={movie.id} 
+                    {...movie} 
+                    goToMovie={() => goToMovie(movie)}
+                /> 
+            )})   
         : 
             <p>Chargement en cours...</p> 
         }

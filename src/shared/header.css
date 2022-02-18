@@ -1,6 +1,15 @@
-.container {
+.container-header {
     width: 100vw;
     height: 50px;
     background-color: rgb(75, 0, 146);
     display: flex;
+}
+
+.container-logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    margin-left: 30px;
 }

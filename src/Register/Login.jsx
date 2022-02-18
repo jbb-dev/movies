@@ -14,6 +14,7 @@ const Login = (props) => {
     });
 
     const login = () => {
+        console.log('isAuth = ', props.isAuth);
         const valid = () => props.setIsAuth(true);
         checkAuth(userLogged.login, userLogged.password, valid);
     };
@@ -46,6 +47,11 @@ const Login = (props) => {
             </>
             <Button 
                 label='Se connecter' 
+                click={login} 
+                active={formIsNotEmpty}
+            />
+            <Button 
+                label='isAuth' 
                 click={login} 
                 active={formIsNotEmpty}
             />

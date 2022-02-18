@@ -1,20 +1,18 @@
 import React from 'react';
-import { Card, CardBody, CardTitle, CardText, CardImg } from 'reactstrap';
 import './movie.css'
 
-const Movie = (props) => {
+const MovieCard = (props) => {
 
     const imageDuFilm = props.poster_path;
     const imageURL = `https://image.tmdb.org/t/p/original/${imageDuFilm}`
 
   return (
-    <div className='card'>
+    <div className='card' onClick={props.goToMovie}>
         <h2>{props.title}</h2>
         <p>Date de sortie : {props.release_date} </p>
-        <p>Description : {props.overview}</p>
         <img alt={props.title} src={imageURL} />
     </div>
-  )
-}
+  );
+};
 
-export default Movie;
+export default MovieCard;
