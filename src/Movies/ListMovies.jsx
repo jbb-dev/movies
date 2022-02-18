@@ -4,7 +4,7 @@ import './movies.css'
 import { useNavigate } from 'react-router-dom';
 import MovieCard from './MovieCard';
 
-const ListMovies = ({isAuth, setSelectMovie }) => {
+const ListMovies = ({isAuth }) => {
 
     let navigate = useNavigate();
 
@@ -22,7 +22,6 @@ const ListMovies = ({isAuth, setSelectMovie }) => {
     };
 
     const goToMovie = (movie) => {
-        setSelectMovie(movie);
         navigate(`/movies/${movie.id}`);
     };
 

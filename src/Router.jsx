@@ -9,7 +9,7 @@ import MovieDetail from './Movies/MovieDetail';
 const Router = () => {
 
     const [isAuth, setIsAuth] = useState(false);
-    const [selectedMovie, setSelectedMovie] = useState(null);
+    // const [selectedMovie, setSelectedMovie] = useState(null);
 
     return (
         <BrowserRouter>
@@ -19,9 +19,8 @@ const Router = () => {
                 <Route path='/register' element={<Register />} />
                 <Route path='/movies' element={ <ListMovies 
                                                         isAuth={isAuth} 
-                                                        setSelectMovie={setSelectedMovie} 
                                                 /> } />
-                <Route path='/movies/:id' element={<MovieDetail selectedMovie={selectedMovie} />} />
+                <Route path='/movies/:id' element={<MovieDetail />} />
             </Routes>
         </BrowserRouter>
     )

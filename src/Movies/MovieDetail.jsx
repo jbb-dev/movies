@@ -1,19 +1,48 @@
-import React from 'react';
+import Axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import './movie.css'
+import { useParams } from 'react-router-dom';
 
-const MovieDetail = (props) => {
 
-    const imageDuFilm = props.selectedMovie.poster_path;
+const MovieDetail = () => {
+
+    const [detail, setDetail] = useState(null);
+
+    let params = useParams();
+
+    const API_KEY = '6954861898bd5fd71e3f9befcd21e7fe';
+    const MOVIE_ID = params.id;
+
+    const imageDuFilm = detail?.poster_path;
     const imageURL = `https://image.tmdb.org/t/p/original/${imageDuFilm}`
 
-  return (
-    <div className='card'>
-        <h2>{props.selectedMovie.title}</h2>
-        <p>Date de sortie : {props.selectedMovie.release_date} </p>
-        <p>Description : {props.selectedMovie.overview}</p>
-        <img alt={props.selectedMovie.title} src={imageURL} />
-    </div>
-  )
+    const URL = `https://api.themoviedb.org/3/movie/${MOVIE_ID}?api_key=${API_KEY}`;
+
+    const getMovieDetails = () => {
+        Axios
+            .get(URL)
+            .then(res => setDetail(res.data))
+            .catch(err => console.log(err))
+    };
+
+    useEffect(() => {
+        getMovieDetails();
+    }, []);
+
+    return (
+        <>
+            {detail != null ?
+                <div className='card'>
+                    <h2>{detail.original_title}</h2>
+                    <p>Date de sortie : {detail.release_date} </p>
+                    <p>Description : {detail.overview}</p>
+                    <img alt={detail.title} src={imageURL} />
+                </div>
+            : 
+                <p>Please waiting for loading...</p>
+            }
+        </>
+    )
 }
 
 export default MovieDetail;
