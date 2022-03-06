@@ -1,4 +1,4 @@
-.container {
+.container-modal {
     width: 100vw;
     height: 100vh;
     background-color: #bccced94;
@@ -7,7 +7,7 @@
     justify-content: center;
 }
 
-.body {
+.body-modal {
     width: 50vw;
     height: 50vh;
     background-color: white;

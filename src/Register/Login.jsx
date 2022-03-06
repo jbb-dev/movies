@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { checkAuth } from '../shared/auth';
 import Button from '../shared/Button';
 import Input from './Input'
+import './login.css';
 
 const Login = (props) => {
 
@@ -30,31 +31,26 @@ const Login = (props) => {
     }, [props.isAuth])
 
     return (
-        <div>
-            <>
+        <div className='container-login'>
+            <div>
                 <Input 
-                    label='Login' 
-                    value={userLogged.login}
-                    action={(e) => setUserLogged({...userLogged, login : e.target.value})} 
-                    type='text'
+                        label='Login' 
+                        value={userLogged.login}
+                        action={(e) => setUserLogged({...userLogged, login : e.target.value})} 
+                        type='text'
                 />
                 <Input 
-                    label='Password' 
-                    value={userLogged.password}
-                    action={(e) => setUserLogged({...userLogged, password : e.target.value})} 
-                    type='password'      
+                        label='Password' 
+                        value={userLogged.password}
+                        action={(e) => setUserLogged({...userLogged, password : e.target.value})} 
+                        type='password'      
                 />
-            </>
-            <Button 
-                label='Se connecter' 
-                click={login} 
-                active={formIsNotEmpty}
-            />
-            <Button 
-                label='isAuth' 
-                click={login} 
-                active={formIsNotEmpty}
-            />
+                <Button 
+                    label='Se connecter' 
+                    click={login} 
+                    active={formIsNotEmpty}
+                />
+            </div>
         </div>
     )
 };

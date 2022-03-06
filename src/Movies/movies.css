@@ -1,7 +1,6 @@
-.container {
+.container-list {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    overflow: scroll;
     align-items: center;
-    width: 100%;
 }

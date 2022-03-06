@@ -39,7 +39,7 @@ const ListMovies = ({isAuth }) => {
 
 
   return (
-    <div className='container'>
+    <div className='container-list'>
         {data != null ? 
             data.map((movie, index) => {
             return (

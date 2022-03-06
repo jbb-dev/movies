@@ -1,6 +1,12 @@
+.container-card {
+    display: flex;
+    justify-content: center;
+}
+
 .card {
     width: 600px;
     border: 1px solid black;
     background-color: #adbad3;
     margin-bottom: 50px;
+    margin-top: 50px;
 }

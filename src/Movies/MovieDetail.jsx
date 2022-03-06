@@ -30,7 +30,7 @@ const MovieDetail = () => {
     }, []);
 
     return (
-        <>
+        <div className='container-card'>
             {detail != null ?
                 <div className='card'>
                     <h2>{detail.original_title}</h2>
@@ -41,7 +41,7 @@ const MovieDetail = () => {
             : 
                 <p>Please waiting for loading...</p>
             }
-        </>
+        </div>
     )
 }
 

@@ -4,8 +4,8 @@ import './modal.css';
 
 const Modal = (props) => {
   return (
-    <div className='container'>
-        <div className='body'>
+    <div className='container-modal'>
+        <div className='body-modal'>
             <p>{props.data.firstName}</p>
             <p>{props.data.name}</p>
             <p>{props.data.city}</p>
