@@ -1,12 +1,15 @@
 import Axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './movie.css'
 import { useParams } from 'react-router-dom';
-
+import { GlobalContext, GlobalDispatchContext } from './../context/Context';
+import Button from '../shared/Button';
 
 const MovieDetail = () => {
 
     const [detail, setDetail] = useState(null);
+
+    const { context, setContext } = useContext(GlobalContext);
 
     let params = useParams();
 
@@ -37,6 +40,16 @@ const MovieDetail = () => {
                     <p>Date de sortie : {detail.release_date} </p>
                     <p>Description : {detail.overview}</p>
                     <img alt={detail.title} src={imageURL} />
+                    <Button 
+                        active 
+                        click={() => console.log(context)}
+                        label='Context'
+                    />
+                    <Button 
+                        active 
+                        click={() => setContext({...context, theme : 'light'})}
+                        label='Set theme'
+                    />
                 </div>
             : 
                 <p>Please waiting for loading...</p>
