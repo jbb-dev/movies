@@ -4,3 +4,8 @@
     align-items: center;
     justify-content: center;
 }
+
+input {
+    height: 25px;
+    padding: 0.5em;
+}

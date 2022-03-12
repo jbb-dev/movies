@@ -3,6 +3,7 @@
     height: 50px;
     background-color: rgb(75, 0, 146);
     display: flex;
+    justify-content: space-between;
 }
 
 .container-logo {
@@ -12,4 +13,15 @@
 
 .logo {
     margin-left: 30px;
+    margin-right: 10px;
+}
+
+a {
+    color: white;
+    margin-right: 20px;
+}
+
+.header-menu{
+    display: flex;
+    align-items: center;
 }

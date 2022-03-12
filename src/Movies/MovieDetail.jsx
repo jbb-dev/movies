@@ -36,7 +36,10 @@ const MovieDetail = () => {
                     <h2>{detail.original_title}</h2>
                     <p>Date de sortie : {detail.release_date} </p>
                     <p>Description : {detail.overview}</p>
-                    <img alt={detail.title} src={imageURL} />
+                    <img 
+                        alt={detail.title} 
+                        src={imageURL}
+                    />
                 </div>
             : 
                 <p>Please waiting for loading...</p>
