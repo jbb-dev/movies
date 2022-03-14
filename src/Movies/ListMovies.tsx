@@ -3,16 +3,34 @@ import Axios from 'axios';
 import './movies.css'
 import { useNavigate } from 'react-router-dom';
 import MovieCard from './MovieCard';
+import Button from '../shared/Button';
 
 type PropsListMovies = {
     isAuth: boolean;
+}
+
+interface IMovie {
+    adult: boolean;
+    backdrop_path: string;
+    genre_ids: any;
+    id: number;
+    original_language: string;
+    original_title: string;
+    overview: string;
+    popularity: number;
+    poster_path: string;
+    release_date: string;
+    title: string;
+    video: boolean;
+    vote_average: number;
+    vote_count: number
 }
 
 const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
 
     let navigate = useNavigate();
 
-    const [data, setData] = React.useState<any | null>(null);
+    const [data, setData] = React.useState<IMovie[] | null>(null);
     const [err, setErr] = React.useState("");
 
     const API_KEY = '6954861898bd5fd71e3f9befcd21e7fe';
@@ -25,11 +43,20 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
         .catch(err => setErr(err))   
     };
 
-    const goToMovie = (movie : any) => {
+    const goToMovie = (movie : IMovie) => {
         navigate(`/movies/${movie.id}`);
     };
 
+    const deleteMovie = (movieIdToDelete: number) => {
+        const updatedMovies = data?.filter(movie => movie.id != movieIdToDelete);
+        if (updatedMovies != null)
+        {
+            setData(updatedMovies);
+        }
+    };
+
     React.useEffect(() => {
+        console.log('useEffect List movies')
         if (isAuth)
         {
             getMovies();
@@ -40,18 +67,22 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
         }
     }, []);
 
-
-
   return (
     <div className='container-list'>
         {data != null ? 
-            data.map((movie: any, index: number) => {
+            data.map((movie: IMovie, index: number) => {
             return (
-                <MovieCard 
-                    key={movie.id} 
-                    {...movie} 
-                    goToMovie={() => goToMovie(movie)}
-                /> 
+                <div key={movie.id}>
+                    <MovieCard 
+                        {...movie} 
+                        goToMovie={() => goToMovie(movie)}
+                    />
+                    <Button 
+                        label='Supprimer'
+                        active={true}
+                        click={() => deleteMovie(movie.id)}
+                    />
+                </div>
             )})   
         : 
             <p>Chargement en cours...</p> 

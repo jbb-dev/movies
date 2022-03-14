@@ -4,11 +4,22 @@ import Modal from '../shared/Modal';
 import Input from './Input';
 import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
+interface IUser {
+    civility: string;
+    name: string;
+    firstName: string;
+    city: string;
+    postalCode: string;
+    birthDate: Date | string;
+    email: string;
+}
+
+
+const Register : React.FC = () => {
 
     let navigate = useNavigate();
 
-    const [user, setUser] = React.useState({
+    const [user, setUser] = React.useState<IUser>({
         civility: '',
         name : '',
         firstName: '',
