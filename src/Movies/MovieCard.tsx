@@ -1,7 +1,14 @@
-import React from 'react';
-import './movie.css'
+import * as React from 'react';
+import './movie.css';
 
-const MovieCard = (props) => {
+type MovieCardProps = {
+    poster_path: string;
+    goToMovie: () => void;
+    title: string;
+    release_date: Date | string,
+}
+
+const MovieCard: React.FC<MovieCardProps> = (props) => {
 
     const imageDuFilm = props.poster_path;
     const imageURL = `https://image.tmdb.org/t/p/original/${imageDuFilm}`

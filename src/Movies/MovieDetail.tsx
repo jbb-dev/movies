@@ -1,12 +1,12 @@
 import Axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import './movie.css'
 import { useParams } from 'react-router-dom';
 
 
 const MovieDetail = () => {
 
-    const [detail, setDetail] = useState(null);
+    const [detail, setDetail] = React.useState<any>(null);
 
     let params = useParams();
 
@@ -25,7 +25,7 @@ const MovieDetail = () => {
             .catch(err => console.log(err))
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         getMovieDetails();
     }, []);
 

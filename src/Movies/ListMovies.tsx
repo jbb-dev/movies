@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import Axios from 'axios';
 import './movies.css'
 import { useNavigate } from 'react-router-dom';
 import MovieCard from './MovieCard';
 
-const ListMovies = ({isAuth }) => {
+type PropsListMovies = {
+    isAuth: boolean;
+}
+
+const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
 
     let navigate = useNavigate();
 
-    const [data, setData] = useState(null);
-    const [err, setErr] = useState("");
+    const [data, setData] = React.useState<any | null>(null);
+    const [err, setErr] = React.useState("");
 
     const API_KEY = '6954861898bd5fd71e3f9befcd21e7fe';
     const URL = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${API_KEY}`;
@@ -21,11 +25,11 @@ const ListMovies = ({isAuth }) => {
         .catch(err => setErr(err))   
     };
 
-    const goToMovie = (movie) => {
+    const goToMovie = (movie : any) => {
         navigate(`/movies/${movie.id}`);
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (isAuth)
         {
             getMovies();
@@ -41,7 +45,7 @@ const ListMovies = ({isAuth }) => {
   return (
     <div className='container-list'>
         {data != null ? 
-            data.map((movie, index) => {
+            data.map((movie: any, index: number) => {
             return (
                 <MovieCard 
                     key={movie.id} 

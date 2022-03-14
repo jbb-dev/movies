@@ -1,8 +1,14 @@
-import React from 'react'
+import * as React from 'react';
 import Button from './Button';
 import './modal.css';
 
-const Modal = (props) => {
+type ModalProps = {
+    data: any;
+    closeModal: () => void;
+    validateModal: () => void;
+}
+
+const Modal: React.FC<ModalProps> = (props) => {
   return (
     <div className='container-modal'>
         <div className='body-modal'>
@@ -11,14 +17,14 @@ const Modal = (props) => {
             <p>{props.data.city}</p>
             <p>{props.data.postalCode}</p>
             <p>{props.data.birthdate}</p>
-            <Button 
+            {/* <Button 
                 label={'Close'} 
                 click={props.closeModal}    
             />
             <Button 
                 label={'Validate'} 
                 click={props.validateModal}    
-            />
+            /> */}
         </div>
     </div>
   )

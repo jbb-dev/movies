@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import * as React from 'react';
 import Button from '../shared/Button';
 import Modal from '../shared/Modal';
 import Input from './Input';
@@ -8,7 +8,7 @@ const Register = () => {
 
     let navigate = useNavigate();
 
-    const [user, setUser] = useState({
+    const [user, setUser] = React.useState({
         civility: '',
         name : '',
         firstName: '',
@@ -18,13 +18,13 @@ const Register = () => {
         email: '',
     });
 
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = React.useState(false);
 
     const closeModal = () => setShowModal(false);
 
     const navigateToMovies = () => navigate('/movies');
 
-    const handleChange = (event) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const key = event.target.name;
         const value = event.target.value;
         setUser({...user, [key] : value});
@@ -48,7 +48,7 @@ const Register = () => {
                                 type='radio'
                                 name="civility" 
                                 value="Homme"
-                                action={(e) => handleChange(e)} 
+                                action={handleChange} 
                             />
                             <Input 
                                 label='Femme'  
@@ -62,43 +62,42 @@ const Register = () => {
                     <Input  
                         label='Nom'  
                         value={user.name}  
-                        // action={(e) => setUser({...user, name: e.target.value})} 
-                        action={(e) => handleChange(e)} 
+                        action={handleChange} 
                         name='name'
                         type='text'
                     />
                     <Input 
                         label='Prénom' 
                         value={user.firstName}
-                        action={(e) => handleChange(e)} 
+                        action={handleChange} 
                         name='firstName'
                         type='text'
                     />
                     <Input 
                         label='Email' 
                         value={user.email}
-                        action={(e) => handleChange(e)} 
+                        action={handleChange} 
                         name='email'
                         type='email'
                     />
                     <Input 
                         label='Ville' 
                         value={user.city}
-                        action={(e) => handleChange(e)} 
+                        action={handleChange} 
                         name='city'
                         type='text'
                     />
                     <Input 
                         label='Code postal' 
                         value={user.postalCode}
-                        action={(e) => handleChange(e)} 
+                        action={handleChange} 
                         name='postalCode'
                         type='text'
                     />
                     <Input 
                         label='Date de naissance' 
                         value={user.postalCode}
-                        action={(e) => handleChange(e)} 
+                        action={handleChange} 
                         name='birthDate'
                         type='date'
                     />

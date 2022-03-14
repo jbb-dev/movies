@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { checkAuth } from '../shared/auth';
 import Button from '../shared/Button';
 import Input from './Input'
 import './login.css';
+interface LoginProps {
+    isAuth: boolean;
+    setIsAuth: (state : boolean) => void;
+}
 
-const Login = (props) => {
+const Login: React.FC<LoginProps> = (props : LoginProps) => {
 
     let navigate = useNavigate();
 
-    const [userLogged, setUserLogged] = useState({
+    const [userLogged, setUserLogged] = React.useState({
         login: '',
         password: ''
     });
@@ -22,7 +26,7 @@ const Login = (props) => {
 
     const formIsNotEmpty = userLogged.login.length > 0 && userLogged.password.length > 0;
 
-    useEffect(() => {
+    React.useEffect(() => {
         console.log("useEffect Login Page")
         if (props.isAuth)
         {
@@ -34,15 +38,16 @@ const Login = (props) => {
         <div className='container-login'>
             <div>
                 <Input 
+                        name='login'
                         label='Login' 
                         value={userLogged.login}
-                        action={(e) => setUserLogged({...userLogged, login : e.target.value})} 
+                        action={(e : React.ChangeEvent<HTMLInputElement>) => setUserLogged({...userLogged, login : e.target.value})} 
                         type='text'
                 />
                 <Input 
                         label='Password' 
                         value={userLogged.password}
-                        action={(e) => setUserLogged({...userLogged, password : e.target.value})} 
+                        action={(e : React.ChangeEvent<HTMLInputElement>) => setUserLogged({...userLogged, password : e.target.value})} 
                         type='password'      
                 />
                 <Button 

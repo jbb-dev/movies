@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Register from './Register/Register';
 import ListMovies from './Movies/ListMovies';
@@ -8,7 +8,7 @@ import MovieDetail from './Movies/MovieDetail';
 
 const Router = () => {
 
-    const [isAuth, setIsAuth] = useState(false);
+    const [isAuth, setIsAuth] = React.useState(false);
     // const [selectedMovie, setSelectedMovie] = useState(null);
 
     return (
