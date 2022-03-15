@@ -14,7 +14,7 @@ const Header = () => {
             <div className='header-menu'>
                 <Link to={'/'}>Register</Link>
                 <Link to={'/movies'}>Movies</Link>
-                <Link to={'/support'}>Support</Link>
+                <Link to={'/profile'}>My Profile</Link>
             </div>
         </div>
     )

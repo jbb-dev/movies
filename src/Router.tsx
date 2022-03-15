@@ -6,6 +6,7 @@ import Header from './shared/Header';
 import Login from './Register/Login';
 import MovieDetail from './Movies/MovieDetail';
 import Support from './Support';
+import Profile from './Profile/Profile';
 
 const Router = () => {
 
@@ -22,7 +23,7 @@ const Router = () => {
                                                         isAuth={isAuth} 
                                                 /> } />
                 <Route path='/movies/:id' element={<MovieDetail />} />
-                <Route path='/support' element={<Support />} />
+                <Route path='/profile' element={<Profile />} />
             </Routes>
         </BrowserRouter>
     )
