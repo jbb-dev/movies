@@ -5,6 +5,7 @@ import ListMovies from './Movies/ListMovies';
 import Header from './shared/Header';
 import Login from './Register/Login';
 import MovieDetail from './Movies/MovieDetail';
+import Support from './Support';
 
 const Router = () => {
 
@@ -21,6 +22,7 @@ const Router = () => {
                                                         isAuth={isAuth} 
                                                 /> } />
                 <Route path='/movies/:id' element={<MovieDetail />} />
+                <Route path='/support' element={<Support />} />
             </Routes>
         </BrowserRouter>
     )

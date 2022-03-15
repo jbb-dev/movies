@@ -3,31 +3,49 @@ import Button from '../shared/Button';
 import Modal from '../shared/Modal';
 import Input from './Input';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components'
+import Axios from 'axios';
 
+const Container = styled.div`
+display: flex; 
+flex-direction: column; 
+align-items: center; 
+justify-content: center; 
+border: 1px solid white; 
+min-width: 40vw; 
+margin-bottom:40px;
+height: 100vh;
+`
+;
 interface IUser {
-    civility: string;
-    name: string;
-    firstName: string;
+    firstname: string;
+    lastname: string;
     city: string;
     postalCode: string;
-    birthDate: Date | string;
+    birthdate: Date | null;
     email: string;
+    password: string;
+    biography: string;
+    avatar: string;
 }
-
 
 const Register : React.FC = () => {
 
     let navigate = useNavigate();
 
     const [user, setUser] = React.useState<IUser>({
-        civility: '',
-        name : '',
-        firstName: '',
+        lastname : '',
+        firstname: '',
         city: '',
         postalCode: '',
-        birthDate: '',
+        birthdate: null,
         email: '',
+        password: '',
+        biography: '',
+        avatar: ''
     });
+
+    const [error, setError] = React.useState<string | null>(null)
 
     const [showModal, setShowModal] = React.useState(false);
 
@@ -41,8 +59,23 @@ const Register : React.FC = () => {
         setUser({...user, [key] : value});
     };
 
+    const register = () => {
+        Axios
+        .post('https://api-ri7.herokuapp.com/api/users/register', user)
+        .then(res => 
+            {
+                if (res.status == 200)
+                {
+                    navigate('/')
+                }
+            }
+        )
+        .catch(err => setError('Une erreur est survenue, merci de réessayer'))
+
+    }
+
     return (
-        <div style={{display: 'flex', flexDirection:'column', alignItems:'center', justifyContent: "center", border: '1px solid white', minWidth: '40vw', marginBottom:'40px', height:'70vh'}}>
+        <Container>
             { showModal ? 
                 <Modal 
                     data={user}
@@ -52,75 +85,73 @@ const Register : React.FC = () => {
             : 
                 <div>
                     <h3>Please create your account</h3>
-                    <div>
-                        <div style={{display: 'flex', width: '300px'}}>
-                            <Input 
-                                label='Homme'  
-                                type='radio'
-                                name="civility" 
-                                value="Homme"
-                                action={handleChange} 
-                            />
-                            <Input 
-                                label='Femme'  
-                                type='radio'
-                                name="civility" 
-                                value="Femme"
-                                action={(e) => handleChange(e)} 
-                            />
-                        </div>
-                    </div>
+                    {error != null &&
+                        <p>{error}</p>
+                    }
                     <Input  
-                        label='Nom'  
-                        value={user.name}  
+                        label='Nom*'  
+                        value={user.lastname}  
                         action={handleChange} 
-                        name='name'
+                        name='lastname'
                         type='text'
                     />
                     <Input 
-                        label='Prénom' 
-                        value={user.firstName}
+                        label='Prénom*' 
+                        value={user.firstname}
                         action={handleChange} 
-                        name='firstName'
+                        name='firstname'
                         type='text'
                     />
                     <Input 
-                        label='Email' 
+                        label='Email*' 
                         value={user.email}
                         action={handleChange} 
                         name='email'
                         type='email'
                     />
                     <Input 
-                        label='Ville' 
+                        label='Password*' 
+                        value={user.password}
+                        action={handleChange} 
+                        name='password'
+                        type='password'
+                    />
+                    <Input 
+                        label='Ville*' 
                         value={user.city}
                         action={handleChange} 
                         name='city'
                         type='text'
                     />
                     <Input 
-                        label='Code postal' 
+                        label='Code postal*' 
                         value={user.postalCode}
                         action={handleChange} 
                         name='postalCode'
                         type='text'
                     />
-                    <Input 
+                    {/* <Input 
                         label='Date de naissance' 
-                        value={user.postalCode}
+                        value={user.birthdate}
                         action={handleChange} 
-                        name='birthDate'
+                        name='birthdate'
                         type='date'
+                    /> */}
+                    <Input 
+                        label='Biographie' 
+                        value={user.biography}
+                        action={handleChange} 
+                        name='biography'
+                        type='text-area'
                     />
                     <Button 
-                        label={'Valider'} 
-                        click={() => setShowModal(true)}
-                        active={user.name.length > 0}    
+                        label={"S'inscrire"} 
+                        click={register}
+                        active={user.lastname.length > 0}    
                     />
                 </div>
             }
-        </div>
-
+        </Container>
     )
 };
 
