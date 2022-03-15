@@ -28,6 +28,8 @@ interface IMovie {
 
 const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
 
+    const token = sessionStorage.getItem('token');
+
     let navigate = useNavigate();
 
     const [data, setData] = React.useState<IMovie[] | null>(null);
@@ -55,6 +57,19 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
         }
     };
 
+    const getMyProfile = () => {
+        console.log('get My profile')
+        const config = {
+            headers: { 
+                Authorization: `Bearer ${token}` 
+            }
+        };
+        Axios
+        .get('https://api-ri7.herokuapp.com/api/users/profile', config)
+        .then(res => console.log('REsponse = ', res))
+        .catch(err => console.log(err))
+    }
+
     React.useEffect(() => {
         console.log('useEffect List movies')
         if (isAuth)
@@ -69,6 +84,11 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
 
   return (
     <div className='container-list'>
+        <Button 
+            label='Get My Profile'
+            active={true}
+            click={getMyProfile}
+        />
         {data != null ? 
             data.map((movie: IMovie, index: number) => {
             return (

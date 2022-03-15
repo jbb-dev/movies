@@ -37,10 +37,15 @@ const Login: React.FC<LoginProps> = (props : LoginProps) => {
     const login = () => {
         Axios
         .post('https://api-ri7.herokuapp.com/api/users/login', userLogged)
-        .then(res => console.log(res))
+        .then(res => {
+            if (res.data?.token != null)
+            {
+                const token = res.data.token;
+                sessionStorage.setItem('token', token);
+                props.setIsAuth(true);
+            }
+        })
         .catch(err => setErr('Erreur, veuillez rééssayer'))
-        // const valid = () => props.setIsAuth(true);
-        // checkAuth(userLogged.login, userLogged.password, valid);
     };
 
     const formIsNotEmpty = userLogged.email.length > 0 && userLogged.password.length > 0;
