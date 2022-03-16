@@ -4,6 +4,7 @@ import Axios from 'axios';
 import Button from '../shared/Button';
 import { Audio as Loader} from  'react-loader-spinner'
 import Input from '../Register/Input';
+import { ENDPOINT } from '../shared/api';
 
 const Container = styled.div`
 height: 100vh;
@@ -21,10 +22,16 @@ flex-direction: column;
 align-items: center;
 `;
 
-const token = sessionStorage.getItem('token');
+const Avatar = styled.img`
+width: 150px;
+height: 150px;
+border-radius: 50%;
+`;
+
+export const token = sessionStorage.getItem('token');
 
 interface IUser {
-    avatar: string | null;
+    avatar: string;
     biography: string | null;
     birthdate: Date | null;
     city: string;
@@ -48,7 +55,7 @@ const Profile = () => {
 
     const getMyProfile = () => {
         Axios
-        .get('https://api-ri7.herokuapp.com/api/users/profile', config)
+        .get(`${ENDPOINT}/api/users/profile`, config)
         .then(res => setUser(res.data))
         .catch(err => console.log(err))
     };
@@ -56,11 +63,10 @@ const Profile = () => {
     const updateProfile = () => {
         if (isUpdating)
         {
-            console.log('je veux enregistrer les modifications mon profil');
             Axios
-            .put('https://api-ri7.herokuapp.com/api/users/profile', user, config)
-            .then(res => console.log("UPDATE RESPONSE = ", res))
-            .catch(err => console.log('error => ', err))
+            .put(`${ENDPOINT}/api/users/profile`, user, config)
+            // .then(res => setUser(res.data))
+            // .catch(err => console.log('error => ', err))
         }
         setIsUpdating(!isUpdating);
     };
@@ -75,6 +81,7 @@ const Profile = () => {
     };
 
     React.useEffect(() => {
+        console.log('useEffect Profile')
         getMyProfile();
     }, []);
 
@@ -99,6 +106,13 @@ const Profile = () => {
                                 name='firstname'
                                 type='text'
                             />
+                                <Input 
+                                    label='Photo' 
+                                    value={user.avatar}
+                                    action={handleChange} 
+                                    name='avatar'
+                                    type='text'
+                                />
                             <textarea
                                 name='biography' 
                                 rows={5}
@@ -109,8 +123,8 @@ const Profile = () => {
                         </>
                     :
                         <UserProfile>
-                            <img 
-                                src={user.avatar != null ? user.avatar : ''} 
+                            <Avatar 
+                                src={user.avatar} 
                                 alt='avatar' 
                             />
                             <p>{user.lastname}</p>

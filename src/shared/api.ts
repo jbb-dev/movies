@@ -1,0 +1,1 @@
+export const ENDPOINT = "https://api-ri7.herokuapp.com";
