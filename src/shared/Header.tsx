@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClapperboard } from '@fortawesome/free-solid-svg-icons'
 import Axios from 'axios';
 import { token } from '../Profile/Profile';
+import { GlobalContext } from '../Context/Context';
 
 interface IUser {
     avatar: string;
@@ -19,6 +20,8 @@ interface IUser {
 }
 
 const Header = () => {
+
+    const store = React.useContext(GlobalContext);
 
     const [user, setUser] = React.useState<IUser | null>(null);
 
@@ -50,7 +53,7 @@ const Header = () => {
                     <Link to={'/'}>Register</Link>
                     <Link to={'/movies'}>Movies</Link>
                     <Link to={'/profile'}>My Profile</Link>
-                    <p>Salut {user?.firstname}</p>
+                    <p>Theme actuel : {store.theme}</p>
                 </div>
             </div>
         )

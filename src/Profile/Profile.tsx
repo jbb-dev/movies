@@ -133,6 +133,7 @@ const Profile = () => {
                             <p>{user.postalCode}</p>
                             <p>{user.city}</p>
                             <p>{user.biography}</p>
+                            {/* <p>{value.theme}</p> */}
                         </UserProfile>
                     }
                     <Button 
