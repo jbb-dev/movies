@@ -12,7 +12,14 @@ flex-direction: column;
 align-items: center;
 `;
 
-const UserProfile = styled.div``;
+const UserProfile = styled.div`
+width: 400px;
+border: 1px solid white;
+justify-content: center;
+display: flex;
+flex-direction: column;
+align-items: center;
+`;
 
 const token = sessionStorage.getItem('token');
 
@@ -33,12 +40,13 @@ const Profile = () => {
     const [user, setUser] = React.useState<IUser | null>(null);
     const [isUpdating, setIsUpdating] = React.useState<boolean>(false);
 
+    const config = {
+        headers: { 
+            Authorization: `Bearer ${token}` 
+        }
+    };
+
     const getMyProfile = () => {
-        const config = {
-            headers: { 
-                Authorization: `Bearer ${token}` 
-            }
-        };
         Axios
         .get('https://api-ri7.herokuapp.com/api/users/profile', config)
         .then(res => setUser(res.data))
@@ -46,6 +54,14 @@ const Profile = () => {
     };
 
     const updateProfile = () => {
+        if (isUpdating)
+        {
+            console.log('je veux enregistrer les modifications mon profil');
+            Axios
+            .put('https://api-ri7.herokuapp.com/api/users/profile', user, config)
+            .then(res => console.log("UPDATE RESPONSE = ", res))
+            .catch(err => console.log('error => ', err))
+        }
         setIsUpdating(!isUpdating);
     };
 
@@ -83,12 +99,26 @@ const Profile = () => {
                                 name='firstname'
                                 type='text'
                             />
+                            <textarea
+                                name='biography' 
+                                rows={5}
+                                cols={20}
+                            >
+                                {user.biography}
+                            </textarea>
                         </>
                     :
                         <UserProfile>
-                            <p>Nom: {user.lastname}</p>
-                            <p>Prénom : {user.firstname}</p>
-                            <p>Ville : {user.city}</p>
+                            <img 
+                                src={user.avatar != null ? user.avatar : ''} 
+                                alt='avatar' 
+                            />
+                            <p>{user.lastname}</p>
+                            <p>{user.firstname}</p>
+                            <p>{user.email}</p>
+                            <p>{user.postalCode}</p>
+                            <p>{user.city}</p>
+                            <p>{user.biography}</p>
                         </UserProfile>
                     }
                     <Button 
