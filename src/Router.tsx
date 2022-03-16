@@ -29,18 +29,18 @@ const Router = () => {
 
     return (
         <BrowserRouter>
-                <ContextProvider>
-                    <Header />
-                    <Routes>
-                        <Route path='/' element={<Login isAuth={isAuth} setIsAuth={setIsAuth} />} />
-                        <Route path='/register' element={<Register />} />
-                        <Route path='/movies' element={ <ListMovies 
-                                                                isAuth={isAuth} 
-                                                        /> } />
-                        <Route path='/movies/:id' element={<MovieDetail />} />
-                        <Route path='/profile' element={<Profile />} />
-                    </Routes>
-                </ContextProvider>
+            <ContextProvider>
+                <Header />
+                <Routes>
+                    <Route path='/' element={<Login isAuth={isAuth} setIsAuth={setIsAuth} />} />
+                    <Route path='/register' element={<Register />} />
+                    <Route path='/movies' element={ <ListMovies 
+                                                            isAuth={isAuth} 
+                                                    /> } />
+                    <Route path='/movies/:id' element={<MovieDetail />} />
+                    <Route path='/profile' element={<Profile />} />
+                </Routes>
+            </ContextProvider>
         </BrowserRouter>
     )
 }

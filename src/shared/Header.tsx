@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClapperboard } from '@fortawesome/free-solid-svg-icons'
 import Axios from 'axios';
 import { token } from '../Profile/Profile';
-import { GlobalContext } from '../Context/Context';
+import { GlobalContext, IContext } from '../Context/Context';
+import Button from './Button';
 
 interface IUser {
     avatar: string;
@@ -21,7 +22,7 @@ interface IUser {
 
 const Header = () => {
 
-    const store = React.useContext(GlobalContext);
+    const { store, setStore } = React.useContext(GlobalContext) as IContext;
 
     const [user, setUser] = React.useState<IUser | null>(null);
 
@@ -54,6 +55,12 @@ const Header = () => {
                     <Link to={'/movies'}>Movies</Link>
                     <Link to={'/profile'}>My Profile</Link>
                     <p>Theme actuel : {store.theme}</p>
+                    <Button 
+                        label='Change Theme'
+                        click={() => setStore({...store, theme: 'dark'})}
+                        active={true}
+                    />
+
                 </div>
             </div>
         )
