@@ -2,7 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Axios from 'axios';
 import Button from '../shared/Button';
-import { Audio } from  'react-loader-spinner'
+import { Audio as Loader} from  'react-loader-spinner'
+import Input from '../Register/Input';
 
 const Container = styled.div`
 height: 100vh;
@@ -10,6 +11,8 @@ display: flex;
 flex-direction: column;
 align-items: center;
 `;
+
+const UserProfile = styled.div``;
 
 const token = sessionStorage.getItem('token');
 
@@ -28,6 +31,7 @@ interface IUser {
 const Profile = () => {
 
     const [user, setUser] = React.useState<IUser | null>(null);
+    const [isUpdating, setIsUpdating] = React.useState<boolean>(false);
 
     const getMyProfile = () => {
         const config = {
@@ -41,33 +45,65 @@ const Profile = () => {
         .catch(err => console.log(err))
     };
 
+    const updateProfile = () => {
+        setIsUpdating(!isUpdating);
+    };
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (user != null)
+        {
+            const key = event.target.name;
+            const value = event.target.value;
+            setUser({...user, [key] : value});
+        };
+    };
+
     React.useEffect(() => {
-        console.log("useEffect Profile")
         getMyProfile();
     }, []);
 
     return (
 
         <Container>
-            <Button 
-                label='profil'
-                click={() => console.log(user)}
-                active={true}
-            />
             { user != null ?
                 <>
-                    <p>Nom: {user.lastname}</p>
-                    <p>Prénom : {user.firstname}</p>
-                    <p>Ville : {user.city}</p>
+                    { isUpdating ? 
+                        <>
+                            <Input  
+                                label='Nom*'  
+                                value={user.lastname}  
+                                action={handleChange} 
+                                name='lastname'
+                                type='text'
+                            />
+                            <Input 
+                                label='Prénom*' 
+                                value={user.firstname}
+                                action={handleChange} 
+                                name='firstname'
+                                type='text'
+                            />
+                        </>
+                    :
+                        <UserProfile>
+                            <p>Nom: {user.lastname}</p>
+                            <p>Prénom : {user.firstname}</p>
+                            <p>Ville : {user.city}</p>
+                        </UserProfile>
+                    }
+                    <Button 
+                        label={isUpdating ? 'Enregistrer' : 'Modifier'}
+                        active={true}
+                        click={updateProfile}
+                    />
                 </>
             : 
-
-            <Audio
-                height="100"
-                width="100"
-                color='grey'
-                ariaLabel='loading'
-            />
+                <Loader
+                    height="100"
+                    width="100"
+                    color='grey'
+                    ariaLabel='loading'
+                />
             }
         </Container>
     )
