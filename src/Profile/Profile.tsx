@@ -5,12 +5,18 @@ import Button from '../shared/Button';
 import { Audio as Loader} from  'react-loader-spinner'
 import Input from '../Register/Input';
 import { ENDPOINT } from '../shared/api';
+import { GlobalContext, IContext } from '../Context/Context';
 
-const Container = styled.div`
+interface ContainerProps {
+    light: boolean;
+}
+
+const Container = styled.div<ContainerProps>`
 height: 100vh;
 display: flex;
 flex-direction: column;
 align-items: center;
+background-color: ${props => props.light ? 'wheat' : '#434240'}
 `;
 
 const UserProfile = styled.div`
@@ -43,6 +49,9 @@ interface IUser {
 }
 
 const Profile = () => {
+
+
+    const { store } = React.useContext(GlobalContext) as IContext;
 
     const [user, setUser] = React.useState<IUser | null>(null);
     const [isUpdating, setIsUpdating] = React.useState<boolean>(false);
@@ -87,7 +96,7 @@ const Profile = () => {
 
     return (
 
-        <Container>
+        <Container light={store.theme == 'light'}>
             { user != null ?
                 <>
                     { isUpdating ? 

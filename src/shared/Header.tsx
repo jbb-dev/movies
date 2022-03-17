@@ -7,18 +7,7 @@ import Axios from 'axios';
 import { token } from '../Profile/Profile';
 import { GlobalContext, IContext } from '../Context/Context';
 import Button from './Button';
-
-interface IUser {
-    avatar: string;
-    biography: string | null;
-    birthdate: Date | null;
-    city: string;
-    email: string;
-    firstname: string;
-    id: number;
-    lastname: string;
-    postalCode: string;
-}
+import { IUser } from './../interface/IUser';
 
 const Header = () => {
 
@@ -39,6 +28,11 @@ const Header = () => {
         .catch(err => console.log(err))
     };
 
+    const changeTheme = () => {
+        console.log('change theme');
+        setStore({...store, theme: 'dark'});
+    }
+
     React.useEffect(() => {
         console.log('useEffect Profile')
         getMyProfile();
@@ -56,9 +50,10 @@ const Header = () => {
                     <Link to={'/profile'}>My Profile</Link>
                     <p>Theme actuel : {store.theme}</p>
                     <Button 
-                        label='Change Theme'
-                        click={() => setStore({...store, theme: 'dark'})}
+                        label='Change theme'
                         active={true}
+                        click={changeTheme}
+                    
                     />
 
                 </div>
