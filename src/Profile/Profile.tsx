@@ -66,7 +66,9 @@ const Profile = () => {
         {
             const key = event.target.name;
             const value = event.target.value;
-            // setStore({...store, [key] : value});
+            setStore({...store, user: 
+                    {...store.user, [key] : value}
+            });
         };
     };
 
