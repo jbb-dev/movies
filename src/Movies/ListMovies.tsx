@@ -4,6 +4,7 @@ import './movies.css'
 import { useNavigate } from 'react-router-dom';
 import MovieCard from './MovieCard';
 import Button from '../shared/Button';
+import { GlobalContext, IContext } from '../Context/Context';
 
 type PropsListMovies = {
     isAuth: boolean;
@@ -28,9 +29,10 @@ interface IMovie {
 
 const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
     
+    const { store, setStore } = React.useContext(GlobalContext) as IContext;
+
     let navigate = useNavigate();
 
-    const [data, setData] = React.useState<IMovie[] | null>(null);
     const [err, setErr] = React.useState("");
 
     const API_KEY = '6954861898bd5fd71e3f9befcd21e7fe';
@@ -39,7 +41,7 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
     const getMovies = () => {
         Axios
         .get(URL)
-        .then(response => setData(response.data.results))
+        .then(response => setStore({...store, movies : response.data.results}))
         .catch(err => setErr(err))   
     };
 
@@ -47,13 +49,13 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
         navigate(`/movies/${movie.id}`);
     };
 
-    const deleteMovie = (movieIdToDelete: number) => {
-        const updatedMovies = data?.filter(movie => movie.id != movieIdToDelete);
-        if (updatedMovies != null)
-        {
-            setData(updatedMovies);
-        }
-    };
+    // const deleteMovie = (movieIdToDelete: number) => {
+    //     const updatedMovies = data?.filter(movie => movie.id != movieIdToDelete);
+    //     if (updatedMovies != null)
+    //     {
+    //         setData(updatedMovies);
+    //     }
+    // };
 
     React.useEffect(() => {
         console.log('useEffect List movies')
@@ -69,8 +71,8 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
 
   return (
     <div className='container-list'>
-        {data != null ? 
-            data.map((movie: IMovie, index: number) => {
+        {store.movies != null ? 
+            store.movies.map((movie: IMovie, index: number) => {
             return (
                 <div key={movie.id}>
                     <MovieCard 
@@ -80,7 +82,8 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
                     <Button 
                         label='Supprimer'
                         active={true}
-                        click={() => deleteMovie(movie.id)}
+                        click={() => null}
+                        // click={() => deleteMovie(movie.id)}
                     />
                 </div>
             )})   
