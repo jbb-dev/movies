@@ -5,6 +5,9 @@ import Button from '../shared/Button';
 import Input from './Input'
 import styled from 'styled-components';
 import Axios from 'axios';
+import { GlobalContext, IContext } from '../Context/Context';
+import { token } from '../Profile/Profile';
+import { ENDPOINT } from '../shared/api';
 
 const Container = styled.div`
 height: 100vh;
@@ -17,7 +20,17 @@ interface LoginProps {
     setIsAuth: (state : boolean) => void;
 }
 
+export const config = 
+{
+    headers: 
+    { 
+        Authorization: `Bearer ${token}` 
+    }
+};
+
 const Login: React.FC<LoginProps> = (props : LoginProps) => {
+
+    const { store, setStore } = React.useContext(GlobalContext) as IContext;
 
     let navigate = useNavigate();
 
@@ -34,6 +47,13 @@ const Login: React.FC<LoginProps> = (props : LoginProps) => {
         setUserLogged({...userLogged, [key] : value});
     };
 
+    const getMyProfile = () => {
+        Axios
+        .get(`${ENDPOINT}/api/users/profile`, config)
+        .then(res => setStore({...store, user: res.data}))
+        .catch(err => console.log(err))
+    };
+
     const login = () => {
         Axios
         .post('https://api-ri7.herokuapp.com/api/users/login', userLogged)
@@ -43,6 +63,7 @@ const Login: React.FC<LoginProps> = (props : LoginProps) => {
                 const token = res.data.token;
                 sessionStorage.setItem('token', token);
                 props.setIsAuth(true);
+                getMyProfile();
             }
         })
         .catch(err => setErr('Erreur, veuillez rééssayer'))
@@ -52,11 +73,11 @@ const Login: React.FC<LoginProps> = (props : LoginProps) => {
 
     React.useEffect(() => {
         console.log("useEffect Login Page")
-        if (props.isAuth)
+        if (props.isAuth && store.user != null)
         {
             navigate('/movies');
         };
-    }, [props.isAuth])
+    }, [props.isAuth, store.user])
 
     return (
         <Container>

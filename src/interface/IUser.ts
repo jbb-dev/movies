@@ -5,8 +5,9 @@ export interface IUser {
     city: string;
     email: string;
     firstname: string;
-    id: number;
+    id?: number;
     lastname: string;
     postalCode: string;
+    password?: string | null;
 }
 

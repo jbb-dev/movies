@@ -6,6 +6,7 @@ import { Audio as Loader} from  'react-loader-spinner'
 import Input from '../Register/Input';
 import { ENDPOINT } from '../shared/api';
 import { GlobalContext, IContext } from '../Context/Context';
+import { IUser } from '../interface/IUser';
 
 interface ContainerProps {
     light: boolean;
@@ -36,24 +37,11 @@ border-radius: 50%;
 
 export const token = sessionStorage.getItem('token');
 
-interface IUser {
-    avatar: string;
-    biography: string | null;
-    birthdate: Date | null;
-    city: string;
-    email: string;
-    firstname: string;
-    id: number;
-    lastname: string;
-    postalCode: string;
-}
-
 const Profile = () => {
 
 
-    const { store } = React.useContext(GlobalContext) as IContext;
+    const { store, setStore } = React.useContext(GlobalContext) as IContext;
 
-    const [user, setUser] = React.useState<IUser | null>(null);
     const [isUpdating, setIsUpdating] = React.useState<boolean>(false);
 
     const config = {
@@ -62,18 +50,11 @@ const Profile = () => {
         }
     };
 
-    const getMyProfile = () => {
-        Axios
-        .get(`${ENDPOINT}/api/users/profile`, config)
-        .then(res => setUser(res.data))
-        .catch(err => console.log(err))
-    };
-
     const updateProfile = () => {
         if (isUpdating)
         {
             Axios
-            .put(`${ENDPOINT}/api/users/profile`, user, config)
+            .put(`${ENDPOINT}/api/users/profile`, store.user, config)
             // .then(res => setUser(res.data))
             // .catch(err => console.log('error => ', err))
         }
@@ -81,43 +62,38 @@ const Profile = () => {
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (user != null)
+        if (store.user != null)
         {
             const key = event.target.name;
             const value = event.target.value;
-            setUser({...user, [key] : value});
+            // setStore({...store, [key] : value});
         };
     };
-
-    React.useEffect(() => {
-        console.log('useEffect Profile')
-        getMyProfile();
-    }, []);
 
     return (
 
         <Container light={store.theme == 'light'}>
-            { user != null ?
+            { store.user != null ?
                 <>
                     { isUpdating ? 
                         <>
                             <Input  
                                 label='Nom*'  
-                                value={user.lastname}  
+                                value={store.user.lastname}  
                                 action={handleChange} 
                                 name='lastname'
                                 type='text'
                             />
                             <Input 
                                 label='Prénom*' 
-                                value={user.firstname}
+                                value={store.user.firstname}
                                 action={handleChange} 
                                 name='firstname'
                                 type='text'
                             />
                                 <Input 
                                     label='Photo' 
-                                    value={user.avatar}
+                                    value={store.user.avatar}
                                     action={handleChange} 
                                     name='avatar'
                                     type='text'
@@ -127,21 +103,21 @@ const Profile = () => {
                                 rows={5}
                                 cols={20}
                             >
-                                {user.biography}
+                                {store.user.biography}
                             </textarea>
                         </>
                     :
                         <UserProfile>
                             <Avatar 
-                                src={user.avatar} 
+                                src={store.user.avatar} 
                                 alt='avatar' 
                             />
-                            <p>{user.lastname}</p>
-                            <p>{user.firstname}</p>
-                            <p>{user.email}</p>
-                            <p>{user.postalCode}</p>
-                            <p>{user.city}</p>
-                            <p>{user.biography}</p>
+                            <p>{store.user.lastname}</p>
+                            <p>{store.user.firstname}</p>
+                            <p>{store.user.email}</p>
+                            <p>{store.user.postalCode}</p>
+                            <p>{store.user.city}</p>
+                            <p>{store.user.biography}</p>
                             {/* <p>{value.theme}</p> */}
                         </UserProfile>
                     }

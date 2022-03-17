@@ -49,6 +49,8 @@ const Header = () => {
                     <Link to={'/movies'}>Movies</Link>
                     <Link to={'/profile'}>My Profile</Link>
                     <p>Theme actuel : {store.theme}</p>
+                    <p>Salut {store.user?.firstname}</p>
+
                     <Button 
                         label='Change theme'
                         active={true}

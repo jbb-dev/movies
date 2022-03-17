@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { IUser } from '../interface/IUser';
 export interface IContext {
     store: IStore;
     setStore: (store : IStore) => void;
@@ -6,7 +7,8 @@ export interface IContext {
 
 export interface IStore {
     theme: string;
-    data: null | [];
+    movies: null | [];
+    user: IUser | null;
 }
 
 interface Props {
@@ -16,7 +18,8 @@ interface Props {
 
 const defaultValue: IStore = {
     theme: 'light',
-    data: null,
+    movies: null,
+    user: null,
 } 
 
 export const GlobalContext = React.createContext<IContext | null>(null);

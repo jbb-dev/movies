@@ -20,7 +20,7 @@ interface InputProps {
     name?: string;
     label: string;
     type: string;
-    value: string;
+    value: string | null;
     action: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -34,7 +34,7 @@ const Input: React.FC<InputProps> = (props : InputProps) => {
             type={props.type}
             placeholder={props.label}
             name={props.name}
-            value={props.value}
+            value={props.value != null ? props.value : ''}
             onChange={event => props.action(event)}
         />
     </Container>

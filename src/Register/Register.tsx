@@ -5,6 +5,7 @@ import Input from './Input';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import Axios from 'axios';
+import { IUser } from '../interface/IUser';
 
 const Container = styled.div`
 display: flex; 
@@ -17,17 +18,6 @@ margin-bottom:40px;
 height: 100vh;
 `
 ;
-interface IUser {
-    firstname: string;
-    lastname: string;
-    city: string;
-    postalCode: string;
-    birthdate: Date | null;
-    email: string;
-    password: string;
-    biography: string;
-    avatar: string;
-}
 
 const Register : React.FC = () => {
 
@@ -111,7 +101,7 @@ const Register : React.FC = () => {
                     />
                     <Input 
                         label='Password*' 
-                        value={user.password}
+                        value={user.password != null ? user.password : ''}
                         action={handleChange} 
                         name='password'
                         type='password'
