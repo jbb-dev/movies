@@ -41,22 +41,31 @@ const Header = () => {
     return (
             <div className='container-header'>
                 <div className='container-logo'>
-                    <FontAwesomeIcon icon={faClapperboard} className='logo'/>
-                    <h1 style={{fontFamily: 'Nunito'}}>Mooovies</h1>
+                    <FontAwesomeIcon icon={faClapperboard} className='logo' />
+                    <Link style={{fontFamily: 'Nunito', fontSize: '30px', borderStyle: 'none'}}to={'/'}>Mooovies</Link>
                 </div>
                 <div className='header-menu'>
-                    <Link to={'/'}>Register</Link>
-                    <Link to={'/movies'}>Movies</Link>
-                    <Link to={'/profile'}>My Profile</Link>
+                    {store.user == null ?
+                        <>
+                            <Link to={'/'}>Login</Link>
+                            <Link to={'/register'}>Register</Link>
+                        </>
+                    :
+                        <>
+                            <Link to={'/movies'}>Movies</Link>
+                            <Link to={'/profile'}>Profile</Link>
+                            <Link to={'/add-movie'}>Add</Link>
+                        </>
+                    }
                     {store.user != null &&
                         <p>Salut {store.user?.firstname}</p>
                     }
-                    <Button 
+                    {/* <Button 
                         label='Change theme'
                         active={true}
                         click={changeTheme}
                     
-                    />
+                    /> */}
 
                 </div>
             </div>

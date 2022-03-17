@@ -8,6 +8,7 @@ import MovieDetail from './Movies/MovieDetail';
 import Support from './Support';
 import Profile from './Profile/Profile';
 import ContextProvider from './Context/Context';
+import AddMovie from './Movies/AddMovie';
 
 
 const Router = () => {
@@ -28,6 +29,7 @@ const Router = () => {
                                                     /> } />
                     <Route path='/movies/:id' element={<MovieDetail />} />
                     <Route path='/profile' element={<Profile />} />
+                    <Route path='/add-movie' element={<AddMovie />} />
                 </Routes>
             </ContextProvider>
         </BrowserRouter>

@@ -6,6 +6,7 @@ type MovieCardProps = {
     goToMovie: () => void;
     title: string;
     release_date: Date | string,
+    customMovie?: boolean
 }
 
 const MovieCard: React.FC<MovieCardProps> = (props) => {
@@ -17,7 +18,7 @@ const MovieCard: React.FC<MovieCardProps> = (props) => {
         <div className='card' onClick={props.goToMovie}>
             <h2>{props.title}</h2>
             <p>Date de sortie : {props.release_date} </p>
-            <img alt={props.title} src={imageURL} />
+            <img alt={props.title} src={props.customMovie ? props.poster_path : imageURL} />
         </div>
   );
 };

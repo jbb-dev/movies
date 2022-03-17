@@ -6,6 +6,8 @@ import MovieCard from './MovieCard';
 import Button from '../shared/Button';
 import { GlobalContext, IContext } from '../Context/Context';
 import { IMovie } from '../interface/IMovie';
+import { ENDPOINT } from '../shared/api';
+import { config } from '../Register/Login';
 
 type PropsListMovies = {
     isAuth: boolean;
@@ -29,6 +31,13 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
         .catch(err => setErr(err))   
     };
 
+    const getMoviesFromRI7 = () => {
+        Axios
+        .get(`${ENDPOINT}/api/movies`, config)
+        .then(response => setStore({...store, addedMovies : response.data}))
+        .catch(err => setErr(err))   
+    };
+
     const goToMovie = (movie : IMovie) => {
         navigate(`/movies/${movie.id}`);
     };
@@ -46,6 +55,7 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
         if (isAuth)
         {
             getMovies();
+            getMoviesFromRI7();
         }
         else
         {
@@ -55,7 +65,25 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
 
   return (
     <div className='container-list'>
-        {store.movies != null ? 
+
+        {store.addedMovies != null && 
+            store.addedMovies.map((movie: IMovie, index: number) => {
+            return (
+                <div key={movie.id}>
+                    <MovieCard 
+                        {...movie}
+                        customMovie 
+                        goToMovie={() => goToMovie(movie)}
+                    />
+                    <Button 
+                        label='Supprimer'
+                        active={true}
+                        click={() => deleteMovie(movie.id)}
+                    />
+                </div>
+            )})
+        }  
+        {store.movies != null && 
             store.movies.map((movie: IMovie, index: number) => {
             return (
                 <div key={movie.id}>
@@ -69,10 +97,8 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
                         click={() => deleteMovie(movie.id)}
                     />
                 </div>
-            )})   
-        : 
-            <p>Chargement en cours...</p> 
-        }
+            )})
+        } 
     </div>
   )
 }

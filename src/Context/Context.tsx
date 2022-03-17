@@ -9,6 +9,7 @@ export interface IContext {
 export interface IStore {
     theme: string;
     movies: null | IMovie[];
+    addedMovies: null | [];
     user: IUser | null;
 }
 
@@ -20,6 +21,7 @@ interface Props {
 const defaultValue: IStore = {
     theme: 'light',
     movies: null,
+    addedMovies: null,
     user: null,
 } 
 

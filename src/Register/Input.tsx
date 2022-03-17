@@ -41,4 +41,29 @@ const Input: React.FC<InputProps> = (props : InputProps) => {
   )
 }
 
+
+interface InputDateProps {
+    name?: string;
+    label: string;
+    value: string;
+    action: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export const InputDate: React.FC<InputDateProps> = (props : InputDateProps) => {
+    return (
+      <Container>
+          <Label>
+              {props.label}
+          </Label>
+          <input
+              type='date'
+              placeholder={props.label}
+              name={props.name}
+              value={props.value}
+              onChange={event => props.action(event)}
+          />
+      </Container>
+    )
+  }
+
 export default Input;
