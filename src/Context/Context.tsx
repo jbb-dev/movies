@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { IMovie } from '../interface/IMovie';
 import { IUser } from '../interface/IUser';
 export interface IContext {
     store: IStore;
@@ -7,7 +8,7 @@ export interface IContext {
 
 export interface IStore {
     theme: string;
-    movies: null | [];
+    movies: null | IMovie[];
     user: IUser | null;
 }
 

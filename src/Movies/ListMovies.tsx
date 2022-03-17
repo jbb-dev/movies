@@ -5,26 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import MovieCard from './MovieCard';
 import Button from '../shared/Button';
 import { GlobalContext, IContext } from '../Context/Context';
+import { IMovie } from '../interface/IMovie';
 
 type PropsListMovies = {
     isAuth: boolean;
-}
-
-interface IMovie {
-    adult: boolean;
-    backdrop_path: string;
-    genre_ids: any;
-    id: number;
-    original_language: string;
-    original_title: string;
-    overview: string;
-    popularity: number;
-    poster_path: string;
-    release_date: string;
-    title: string;
-    video: boolean;
-    vote_average: number;
-    vote_count: number
 }
 
 const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
@@ -49,13 +33,13 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
         navigate(`/movies/${movie.id}`);
     };
 
-    // const deleteMovie = (movieIdToDelete: number) => {
-    //     const updatedMovies = data?.filter(movie => movie.id != movieIdToDelete);
-    //     if (updatedMovies != null)
-    //     {
-    //         setData(updatedMovies);
-    //     }
-    // };
+    const deleteMovie = (movieIdToDelete: number) => {
+        const updatedMovies = store.movies?.filter(movie => movie.id != movieIdToDelete);
+        if (updatedMovies != null)
+        {
+            setStore({...store, movies : updatedMovies})
+        }
+    };
 
     React.useEffect(() => {
         console.log('useEffect List movies')
@@ -82,8 +66,7 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
                     <Button 
                         label='Supprimer'
                         active={true}
-                        click={() => null}
-                        // click={() => deleteMovie(movie.id)}
+                        click={() => deleteMovie(movie.id)}
                     />
                 </div>
             )})   
