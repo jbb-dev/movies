@@ -4,20 +4,30 @@ import './movies.css'
 import { useNavigate } from 'react-router-dom';
 import MovieCard from './MovieCard';
 import Button from '../shared/Button';
-import { GlobalContext, IContext } from '../Context/Context';
+import { GlobalContext, IContext, IStore } from '../Context/Context';
 import { IMovie } from '../interface/IMovie';
 import { ENDPOINT } from '../shared/api';
 import { config } from '../Register/Login';
+import styled from 'styled-components'
 
 type PropsListMovies = {
     isAuth: boolean;
 }
+
+const ButtonsContainer = styled.div`
+margin-top: 20px;
+display: flex;
+`;
+
 
 const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
     
     const { store, setStore } = React.useContext(GlobalContext) as IContext;
 
     const [moviesRI7, setMoviesRI7] = React.useState<null | []>(null);
+
+    const [showRI7movies, setShowRI7movies] = React.useState<boolean>(false);
+    const [showMDBmovies, setShowMDBmovies] = React.useState<boolean>(false);
 
     let navigate = useNavigate();
 
@@ -52,6 +62,78 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
         }
     };
 
+    const toggleChange = () => {
+        if (!showMDBmovies)
+        {
+            setShowMDBmovies(true);
+            setShowRI7movies(false);
+        }
+        if (!showRI7movies)
+        {
+            setShowMDBmovies(false);
+            setShowRI7movies(true);
+        }
+    }
+
+    const displayMovies = () => {
+        if(store.movies != null)
+        {
+            if(showRI7movies)
+            {
+                const onlyRI7movies: IMovie[] | [] = store.movies?.filter(movie => movie.isCustom);
+                return onlyRI7movies.map((movie: IMovie, index: number) => 
+                    <div key={movie.id}>
+                        <MovieCard 
+                            {...movie} 
+                            goToMovie={() => goToMovie(movie)}
+                            isCustom={movie.isCustom != null}
+                        />
+                        <Button 
+                            label='Supprimer'
+                            active={true}
+                            click={() => deleteMovie(movie.id)}
+                        />
+                    </div>
+                )        
+            }
+            if (showMDBmovies)
+            {
+                const onlyMDBmovies: IMovie[] | [] = store.movies?.filter(movie => !movie.isCustom);
+                return onlyMDBmovies.map((movie: IMovie, index: number) => 
+                    <div key={movie.id}>
+                        <MovieCard 
+                            {...movie} 
+                            goToMovie={() => goToMovie(movie)}
+                            isCustom={movie.isCustom != null}
+                        />
+                        <Button 
+                            label='Supprimer'
+                            active={true}
+                            click={() => deleteMovie(movie.id)}
+                        />
+                    </div>
+                ) 
+            }
+            else
+            {
+                return store.movies.map((movie: IMovie, index: number) => 
+                    <div key={movie.id}>
+                        <MovieCard 
+                            {...movie} 
+                            goToMovie={() => goToMovie(movie)}
+                            isCustom={movie.isCustom != null}
+                        />
+                        <Button 
+                            label='Supprimer'
+                            active={true}
+                            click={() => deleteMovie(movie.id)}
+                        />
+                    </div>
+                )        
+            }      
+        }
+    };
+
     React.useEffect(() => {
         if (isAuth)
         {
@@ -75,28 +157,20 @@ const ListMovies: React.FC<PropsListMovies> = ({isAuth } : PropsListMovies) => {
 
   return (
     <div className='container-list'>
-        <Button
-            label='STORE MOVIES'
-            click={() => console.log(store.movies)}
-            active={true}
-        
-        />
+        <ButtonsContainer>
+            <Button 
+                label={'FILMS RI7'}
+                active={true}
+                click={toggleChange}
+            />
+            <Button 
+                label={`FILMS MOVIE DATA BASE`}
+                active={true}
+                click={toggleChange}
+            />
+        </ButtonsContainer>
         {store.movies != null ? 
-            store.movies.map((movie: IMovie, index: number) => {
-            return (
-                <div key={movie.id}>
-                    <MovieCard 
-                        {...movie} 
-                        goToMovie={() => goToMovie(movie)}
-                        isCustom={movie.isCustom != null}
-                    />
-                    <Button 
-                        label='Supprimer'
-                        active={true}
-                        click={() => deleteMovie(movie.id)}
-                    />
-                </div>
-            )})
+            displayMovies()
         : 
             <p>Films en cours de chargement...</p>
         } 
