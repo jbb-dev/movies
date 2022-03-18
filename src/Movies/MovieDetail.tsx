@@ -20,9 +20,9 @@ const MovieDetail = () => {
 
     const getMovieDetails = () => {
         Axios
-            .get(URL)
-            .then(res => setDetail(res.data))
-            .catch(err => console.log(err))
+        .get(URL)
+        .then(res => setDetail(res.data))
+        .catch(err => console.log(err))
     };
 
     React.useEffect(() => {
